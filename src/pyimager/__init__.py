@@ -8,7 +8,7 @@ def about():
     """
     Returns information about your release and other projects by LK
     """
-    return {"Version":(1, 1, 2), "Author":"Leander Kafemann", date:"3.1.2023", recommend:("Büro by LK", "Verschlüsseler by LK", "flappy bird by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
+    return {"Version":(1, 1, 3), "Author":"Leander Kafemann", date:"3.1.2023", recommend:("Büro by LK", "Verschlüsseler by LK", "flappy bird by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -27,7 +27,7 @@ def display(path: str):
         sizes, data = f.read().split("#**#")
     WIDTH, HEIGHT = sizes.split("#*#")
     WIDTH = int(WIDTH); HEIGHT = int(HEIGHT)
-    for i in cl:
+    for i in el:
         data = data.replace(f"%{i}%", i*10)
         data = data.replace(f"&{i}&", i*20)
     if WIDTH * HEIGHT != len(data) or WIDTH > 150 or HEIGHT > 100:
