@@ -8,7 +8,7 @@ def about():
     """
     Returns information about your release and other projects by LK
     """
-    return {"Version":(1, 1, 1), "Author":"Leander Kafemann", date:"3.1.2023", recommend:("Büro by LK", "Verschlüsseler by LK", "flappy bird by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
+    return {"Version":(1, 1, 2), "Author":"Leander Kafemann", date:"3.1.2023", recommend:("Büro by LK", "Verschlüsseler by LK", "flappy bird by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -28,8 +28,8 @@ def display(path: str):
     WIDTH, HEIGHT = sizes.split("#*#")
     WIDTH = int(WIDTH); HEIGHT = int(HEIGHT)
     for i in cl:
-        data.replace(f"%{i}%", i*10)
-        data.replace(f"&{i}&", i*20)
+        data = data.replace(f"%{i}%", i*10)
+        data = data.replace(f"&{i}&", i*20)
     if WIDTH * HEIGHT != len(data) or WIDTH > 150 or HEIGHT > 100:
         print(WIDTH, HEIGHT, WIDTH*HEIGHT, len(data))
         raise ValueError("Invalid File")
@@ -50,8 +50,8 @@ def compress(path: str, target: str = ""):
     with open(path, "r", encoding="utf-8") as f:
         im = f.read()
     for i in el:
-        im.replace(i*20, f"&{i}&")
-        im.replace(i*10, f"%{i}%")
+        im = im.replace(i*20, f"&{i}&")
+        im = im.replace(i*10, f"%{i}%")
     if target == "":
         target = path
     with open(target, "w", encoding="utf-8") as f:
