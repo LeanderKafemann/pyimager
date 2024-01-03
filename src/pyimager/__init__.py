@@ -8,7 +8,7 @@ def about():
     """
     Returns information about your release and other projects by LK
     """
-    return {"Version":(1, 1, 0), "Author":"Leander Kafemann", date:"3.1.2023", recommend:("Büro by LK", "Verschlüsseler by LK", "flappy bird by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
+    return {"Version":(1, 1, 1), "Author":"Leander Kafemann", date:"3.1.2023", recommend:("Büro by LK", "Verschlüsseler by LK", "flappy bird by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -42,7 +42,7 @@ def display(path: str):
             count = 0
         count += 1
 
-def compress(path: str, target: str):
+def compress(path: str, target: str = ""):
     """
     Compresses LKIM with replacing frequent pixels.
     When target is left empty, the given file gets overwritten.
@@ -52,5 +52,7 @@ def compress(path: str, target: str):
     for i in el:
         im.replace(i*20, f"&{i}&")
         im.replace(i*10, f"%{i}%")
+    if target == "":
+        target = path
     with open(target, "w", encoding="utf-8") as f:
         f.write(im)
