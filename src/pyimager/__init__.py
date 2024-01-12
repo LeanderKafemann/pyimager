@@ -3,12 +3,13 @@ PYIMAGER
 funcs:
 display -- displays image
 compress -- compresses image file
+about -- returns information about your release
 """
 def about():
     """
     Returns information about your release and other projects by LK
     """
-    return {"Version":(1, 1, 3), "Author":"Leander Kafemann", date:"3.1.2023", recommend:("Büro by LK", "Verschlüsseler by LK", "flappy bird by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
+    return {"Version":(1, 2, 0), "Author":"Leander Kafemann", date:"12.1.2024", recommend:("Büro by LK", "Verschlüsseler by LK", "flappy bird by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -30,6 +31,8 @@ def display(path: str):
     for i in el:
         data = data.replace(f"%{i}%", i*10)
         data = data.replace(f"&{i}&", i*20)
+	data = data.replace(f"${i}$", i*5)
+	data = data.replace(f"§{i}§", i*50)
     if WIDTH * HEIGHT != len(data) or WIDTH > 150 or HEIGHT > 100:
         print(WIDTH, HEIGHT, WIDTH*HEIGHT, len(data))
         raise ValueError("Invalid File")
@@ -50,8 +53,10 @@ def compress(path: str, target: str = ""):
     with open(path, "r", encoding="utf-8") as f:
         im = f.read()
     for i in el:
+	im = im.replace(i*50, f"§{i}§")
         im = im.replace(i*20, f"&{i}&")
         im = im.replace(i*10, f"%{i}%")
+	im = im.replace(i*5, f"${i}$")
     if target == "":
         target = path
     with open(target, "w", encoding="utf-8") as f:
