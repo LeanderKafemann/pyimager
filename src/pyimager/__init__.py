@@ -9,7 +9,7 @@ def about():
     """
     Returns information about your release and other projects by LK
     """
-    return {"Version":(1, 2, 1), "Author":"Leander Kafemann", date:"12.1.2024", recommend:("Büro by LK", "Verschlüsseler by LK", "flappy bird by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
+    return {"Version":(1, 2, 2), "Author":"Leander Kafemann", date:"12.1.2024", recommend:("Büro by LK", "Verschlüsseler by LK", "flappy bird by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -53,7 +53,7 @@ def compress(path: str, target: str = ""):
     with open(path, "r", encoding="utf-8") as f:
         im = f.read()
     for i in el:
-	im = im.replace(i*50, f"§{i}§")
+        im = im.replace(i*50, f"§{i}§")
         im = im.replace(i*20, f"&{i}&")
         im = im.replace(i*10, f"%{i}%")
         im = im.replace(i*5, f"${i}$")
