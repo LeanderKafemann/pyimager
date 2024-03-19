@@ -1,1 +1,1 @@
-pycols is a package for displaying images via colorating whitespaces into the console
+pyimager is a package for displaying images in console
