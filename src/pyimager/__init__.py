@@ -11,7 +11,7 @@ def about():
     """
     Returns information about your release and other projects by LK
     """
-    return {"Version":(2, 0, 0), "Author":"Leander Kafemann", date:"5.2.2024", recommend:("Büro by LK", "Verschlüsseler by LK", "flappy bird by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
+    return {"Version":(2, 0, 1), "Author":"Leander Kafemann", date:"20.3.2024", recommend:("Büro by LK", "Verschlüsseler by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -37,6 +37,7 @@ def display(path: str):
         data = data.replace(f"§{i}§", i*50)
     if WIDTH * HEIGHT != len(data) or WIDTH > 150 or HEIGHT > 100:
         print(WIDTH, HEIGHT, WIDTH*HEIGHT, len(data))
+	print("Invalid image size.")
         raise ValueError("Invalid File")
     count = 1
     for i in data:
