@@ -11,9 +11,9 @@ def about():
     """
     Returns information about your release and other projects by LK
     """
-    return {"Version":(2, 0, 1), "Author":"Leander Kafemann", date:"20.3.2024", recommend:("Büro by LK", "Verschlüsseler by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
+    return {"Version":(2, 0, 2), "Author":"Leander Kafemann", date:"20.3.2024", recommend:("Büro by LK", "Verschlüsseler by LK", "naturalsize by LK"), feedbackTo: "leander@kafemann.berlin"}
 
-import pycols
+import pycols, time
 c = pycols.color()
 reset = c.RESET_ALL
 b = pycols.Back()
@@ -37,7 +37,7 @@ def display(path: str):
         data = data.replace(f"§{i}§", i*50)
     if WIDTH * HEIGHT != len(data) or WIDTH > 150 or HEIGHT > 100:
         print(WIDTH, HEIGHT, WIDTH*HEIGHT, len(data))
-	print("Invalid image size.")
+        print("Invalid image size.")
         raise ValueError("Invalid File")
     count = 1
     for i in data:
@@ -91,3 +91,6 @@ def compressor(path: str, target: str = ""):
         target = path
     decompress(path, target)
     compress(target, target)
+
+if __name__ == "__main__":
+    print("Test erfolgreich abgeschlossen."); time.sleep(3)
