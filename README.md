@@ -1,1 +1,1 @@
-pyimager is a package for displaying images in console
+pyimager is a package for displaying images in console and creating/compressing them
