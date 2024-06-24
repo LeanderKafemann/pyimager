@@ -8,12 +8,15 @@ compressor -- compresses whole file anew
 about -- returns information about your release
 
 Start pyimager to enter designer mode and create your own lkims!
+
+If pyimager is executed directly via cmd, __main__.py will be called.
+This will also start designer mode.
 """
 def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 0, 3), "Author":"Leander Kafemann", "date":"24.6.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 1, 0), "Author":"Leander Kafemann", "date":"24.6.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols, time
 c = pycols.color()
@@ -99,6 +102,10 @@ def compressor(path: str, target: str = ""):
     compress(target, target)
     
 class Designer:
+    """
+    Class for pyimagers Designer Mode.
+    BETA function
+    """
     def __init__(self):
         self.paletteText = "abcdefghijklmnopqr"
         self.paletteDisplay = "18#*#1#**#"+self.paletteText
@@ -107,22 +114,39 @@ class Designer:
         self.imTextSchabl = "{}#*#{}#**#{}"
         self.imText = ""
     def run_designer(self):
+        """
+        Runs Designer Mode
+        """
         print("Designer loading...")
         self.show_palette()
-        finish = ""
-        while finish == "":
-            newRow = input("Enter new row of image: ")
-            if self.width == 0:
-                self.width = len(newRow)
-            else:
-                if len(newRow) != self.width:
-                    self.raise_error("Invalid or inconsistent width")
-            self.imText += newRow
-            self.height += 1
+        while True:
             print("Current image:")
             display("display_content", self.imTextSchabl.format(str(self.width), str(self.height), self.imText))
             print("Image Data: Width: {} - Height: {}".format(str(self.width), str(self.height)))
-            finish = input("Finish image? Enter anything to finish: ")
+            newRow = input("Enter new row of image, command or help: ")
+            if newRow == "finish":
+                break
+            elif newRow == "undo":
+                self.imText = self.imText[0:-1*self.width]
+                self.height -= 1
+            elif newRow == "repeat":
+                self.imText += self.imText[-1*self.width if self.height != 1 else 0:]
+                self.height += 1
+            elif newRow == "help":
+                print("Short description of Designer Mode", "For more information read the documentation or view the code",\
+                      "Enter one of the following: rowCode_, help, command_", "help", "help returns you here",\
+                      "rowCode_", "a rowCode is the lkim content of a lkim row", "you have to enter the colors codes as seen above",\
+                      "command_", "a command will execute some helpful options so you save time",\
+                      "undo removes the last row placed", "repeat addes the last row again", sep="\n")
+            else:
+                print("Adding new row...")
+                if self.width == 0:
+                    self.width = len(newRow)
+                else:
+                    if len(newRow) != self.width:
+                        self.raise_error("Invalid or inconsistent width")
+                self.imText += newRow
+                self.height += 1
         if self.height == 0:
             self.raise_error("Invalid height (0)")
         imPath = input("Enter path to save image (.lkim file): ")
@@ -132,9 +156,15 @@ class Designer:
         print("Displaying new image...")
         display(imPath)
     def show_palette(self):
+        """
+        Shows available colors and codes
+        """
         display("display_content", self.paletteDisplay)
         print(self.paletteText)
     def raise_error(self, errorText: str = ""):
+        """
+        Raises error
+        """
         quit(code=errorText)
 
 if __name__ == "__main__":
