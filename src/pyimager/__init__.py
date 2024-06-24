@@ -13,7 +13,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 0, 0), "Author":"Leander Kafemann", "date":"24.6.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 0, 1), "Author":"Leander Kafemann", "date":"24.6.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols, time
 c = pycols.color()
