@@ -13,7 +13,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 0, 2), "Author":"Leander Kafemann", "date":"24.6.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 0, 3), "Author":"Leander Kafemann", "date":"24.6.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols, time
 c = pycols.color()
@@ -128,6 +128,7 @@ class Designer:
         imPath = input("Enter path to save image (.lkim file): ")
         with open(imPath, "w") as f:
             f.write(self.imTextSchabl.format(str(self.width), str(self.height), self.imText))
+        compress(imPath)
         print("Displaying new image...")
         display(imPath)
     def show_palette(self):
