@@ -1,7 +1,7 @@
 """
 Submodule for designing lkims.
 """
-import __init__
-d = __init__.Designer()
+import pyimager as pi
+d = pi.Designer()
 d.run_designer()
 input("Finish...")

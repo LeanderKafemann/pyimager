@@ -13,7 +13,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 0, 1), "Author":"Leander Kafemann", "date":"24.6.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 0, 2), "Author":"Leander Kafemann", "date":"24.6.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols, time
 c = pycols.color()
@@ -116,7 +116,7 @@ class Designer:
                 self.width = len(newRow)
             else:
                 if len(newRow) != self.width:
-                    self.raise_error()
+                    self.raise_error("Invalid or inconsistent width")
             self.imText += newRow
             self.height += 1
             print("Current image:")
@@ -124,7 +124,7 @@ class Designer:
             print("Image Data: Width: {} - Height: {}".format(str(self.width), str(self.height)))
             finish = input("Finish image? Enter anything to finish: ")
         if self.height == 0:
-            self.raise_error()
+            self.raise_error("Invalid height (0)")
         imPath = input("Enter path to save image (.lkim file): ")
         with open(imPath, "w") as f:
             f.write(self.imTextSchabl.format(str(self.width), str(self.height), self.imText))
