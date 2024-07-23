@@ -5,6 +5,7 @@ display -- displays image
 compress -- compresses image file
 decompress -- decompresses image file
 compressor -- compresses whole file anew
+temp_uncompress -- uncompresses lkim-data temporarily
 about -- returns information about your release
 
 Start pyimager to enter designer mode and create your own lkims!
@@ -16,7 +17,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 1, 0), "Author":"Leander Kafemann", "date":"24.6.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 2, 0), "Author":"Leander Kafemann", "date":"23.7.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols, time
 c = pycols.color()
@@ -25,6 +26,34 @@ b = pycols.Back()
 cl = b.BCLIST+b.BLCLIST
 el = list("abcdefghijklmnopqr")
 cols = None
+
+def temp_uncompress(data: str, sgn: str, sgn_codec: int):
+    """
+    Uncompresses content of data, but only uncompresses codecs with given sign.
+    Replaces it by sgn_codec times the content of the compression matrix.
+    """
+    sgn_found = []
+    for i in range(len(data)):
+        if data[i] == sgn:
+            sgn_found.append(i)
+    sgn_found_tpl = []
+    for i in range(int(len(sgn_found)/2)):
+        sgn_found_tpl += [(sgn_found[2*i], sgn_found[2*i+1])]
+    print(sgn_found, sgn_found_tpl)
+    if len(sgn_found_tpl) == 0:
+        return data
+    betw = data[sgn_found_tpl[0][0]+1:sgn_found_tpl[0][1]]
+    data_new = data[:sgn_found_tpl[0][0]] + sgn_codec*betw
+    sgn_found_tpl.pop(0)
+    print(data_new)
+    for i in sgn_found_tpl:
+        betw = data[i[0]+1:i[1]]
+        idx = sgn_found.index(i[0]) - 1
+        print(betw, idx, data[sgn_found[idx]+1:i[0]])
+        data_new += data[sgn_found[idx]+1:i[0]] + sgn_codec*betw
+        print(data_new)
+    data_new += data[sgn_found[-1]+1:]
+    return data_new
 
 def display(path: str, display_content: str = ""):
     """
@@ -39,11 +68,10 @@ def display(path: str, display_content: str = ""):
         sizes, data = display_content.split("#**#")
     WIDTH, HEIGHT = sizes.split("#*#")
     WIDTH = int(WIDTH); HEIGHT = int(HEIGHT)
-    for i in el:
-        data = data.replace(f"%{i}%", i*10)
-        data = data.replace(f"&{i}&", i*20)
-        data = data.replace(f"${i}$", i*5)
-        data = data.replace(f"§{i}§", i*50)
+    data = temp_uncompress(data, "$", 5)
+    data = temp_uncompress(data, "%", 10)
+    data = temp_uncompress(data, "&", 20)
+    data = temp_uncompress(data, "§", 50)
     if WIDTH * HEIGHT != len(data) or WIDTH > 150 or HEIGHT > 100:
         print(WIDTH, HEIGHT, WIDTH*HEIGHT, len(data))
         print("Invalid image size.")
@@ -81,15 +109,15 @@ def decompress(path: str, target: str = ""):
     """
     with open(path, "r", encoding="utf-8") as f:
         im = f.read()
-    for i in el:
-        im = im.replace(f"§{i}§", i*50)
-        im = im.replace(f"&{i}&", i*20)
-        im = im.replace(f"%{i}%", i*10)
-        im = im.replace(f"${i}$", i*5)
+    sizes, data = im.split("#**#")
+    data = temp_uncompress(data, "$", 5)
+    data = temp_uncompress(data, "%", 10)
+    data = temp_uncompress(data, "&", 20)
+    data = temp_uncompress(data, "§", 50)
     if target == "":
         target = path
     with open(target, "w", encoding="utf-8") as f:
-        f.write(im)
+        f.write(sizes+"#**#"+data)
 
 def compressor(path: str, target: str = ""):
     """
@@ -132,7 +160,7 @@ class Designer:
             elif newRow == "repeat":
                 self.imText += self.imText[-1*self.width if self.height != 1 else 0:]
                 self.height += 1
-            elif newRow == "help":
+            elif newRow == "help" or newRow == "command":
                 print("Short description of Designer Mode", "For more information read the documentation or view the code",\
                       "Enter one of the following: rowCode_, help, command_", "help", "help returns you here",\
                       "rowCode_", "a rowCode is the lkim content of a lkim row", "you have to enter the colors codes as seen above",\
@@ -166,8 +194,3 @@ class Designer:
         Raises error
         """
         quit(code=errorText)
-
-if __name__ == "__main__":
-    d = Designer()
-    d.run_designer()
-    input("Finish...")
