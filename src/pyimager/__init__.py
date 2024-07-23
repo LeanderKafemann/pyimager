@@ -17,7 +17,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 2, 0), "Author":"Leander Kafemann", "date":"23.7.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 2, 1), "Author":"Leander Kafemann", "date":"23.7.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols, time
 c = pycols.color()
@@ -39,19 +39,15 @@ def temp_uncompress(data: str, sgn: str, sgn_codec: int):
     sgn_found_tpl = []
     for i in range(int(len(sgn_found)/2)):
         sgn_found_tpl += [(sgn_found[2*i], sgn_found[2*i+1])]
-    print(sgn_found, sgn_found_tpl)
     if len(sgn_found_tpl) == 0:
         return data
     betw = data[sgn_found_tpl[0][0]+1:sgn_found_tpl[0][1]]
     data_new = data[:sgn_found_tpl[0][0]] + sgn_codec*betw
     sgn_found_tpl.pop(0)
-    print(data_new)
     for i in sgn_found_tpl:
         betw = data[i[0]+1:i[1]]
         idx = sgn_found.index(i[0]) - 1
-        print(betw, idx, data[sgn_found[idx]+1:i[0]])
         data_new += data[sgn_found[idx]+1:i[0]] + sgn_codec*betw
-        print(data_new)
     data_new += data[sgn_found[-1]+1:]
     return data_new
 
