@@ -15,26 +15,31 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 3, 0), "Author":"Leander Kafemann", "date":"07.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 3, 1), "Author":"Leander Kafemann", "date":"07.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
-import pycols, time
+import pycols
 c = pycols.color()
 reset = c.RESET_ALL
 b = pycols.Back()
-cl = b.BCLIST+b.BLCLIST
-el = list("abcdefghijklmnopqr")
+cl = b.BCLIST+b.BLCLIST #initialize pycols color code elements
+el = list("abcdefghijklmnopqr") #initialize list of lkim code elements
 cols = None
 
-combList = el.copy()
+comb1 = el.copy()
+comb2 = []
 for i in el:
     for j in el:
         if i != j:
-            combList.append(i+j)
+            comb2.append(i+j)
+comb3 = []
 for i in el:
     for j in el:
         for k in el:
             if i != j and i != k and j != k:
-                combList.append(i+j+k)
+                comb3.append(i+j+k)
+combList = comb3+comb2+comb1 #initialize list of possible combinations of lkim code elements
+#todo:
+#4-er Liste aus 2-er Liste zusammensetzen usw.              
 
 def temp_uncompress(data: str, sgn: str, sgn_codec: int):
     """
