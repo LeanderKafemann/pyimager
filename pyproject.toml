@@ -1,10 +1,10 @@
 [project]
-name = "naturalsize"
-version = "1.0.14"
+name = "pyimager"
+version = "3.3.0"
 authors = [
-  { name="Leander Kafemann", email="leander@kafemann.berlin" },
+  {name="Leander Kafemann", email="leander@kafemann.berlin" },
 ]
-description = "get human-readable size of files"
+description = "display ims in console or compress them"
 readme = "README.md"
 requires-python = ">=3.11"
 classifiers = [
@@ -12,6 +12,9 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dependencies = [
+	"pycols",
+]
 
 [project.urls]
-Homepage = "https://github.com/LeanderKafemann/naturalsize"
+Homepage = "https://github.com/LeanderKafemann/pyimager"
