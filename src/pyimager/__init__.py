@@ -8,16 +8,14 @@ compressor -- compresses whole file anew
 temp_uncompress -- uncompresses lkim-data temporarily
 about -- returns information about your release
 
-Start pyimager to enter designer mode and create your own lkims!
-
-If pyimager is executed directly via cmd, __main__.py will be called.
-This will also start designer mode.
+Start pyimager via cmd to execute __main__.py,
+which will make you enter the Designer Mode to create your own lkims.
 """
 def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 2, 1), "Author":"Leander Kafemann", "date":"23.7.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 3, 0), "Author":"Leander Kafemann", "date":"07.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols, time
 c = pycols.color()
@@ -26,6 +24,17 @@ b = pycols.Back()
 cl = b.BCLIST+b.BLCLIST
 el = list("abcdefghijklmnopqr")
 cols = None
+
+combList = el.copy()
+for i in el:
+    for j in el:
+        if i != j:
+            combList.append(i+j)
+for i in el:
+    for j in el:
+        for k in el:
+            if i != j and i != k and j != k:
+                combList.append(i+j+k)
 
 def temp_uncompress(data: str, sgn: str, sgn_codec: int):
     """
@@ -88,7 +97,7 @@ def compress(path: str, target: str = ""):
     """
     with open(path, "r", encoding="utf-8") as f:
         im = f.read()
-    for i in el:
+    for i in combList:
         im = im.replace(i*50, f"§{i}§")
         im = im.replace(i*20, f"&{i}&")
         im = im.replace(i*10, f"%{i}%")
@@ -128,7 +137,6 @@ def compressor(path: str, target: str = ""):
 class Designer:
     """
     Class for pyimagers Designer Mode.
-    BETA function
     """
     def __init__(self):
         self.paletteText = "abcdefghijklmnopqr"
