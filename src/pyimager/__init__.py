@@ -15,7 +15,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 3, 1), "Author":"Leander Kafemann", "date":"07.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 3, 2), "Author":"Leander Kafemann", "date":"07.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -37,9 +37,16 @@ for i in el:
         for k in el:
             if i != j and i != k and j != k:
                 comb3.append(i+j+k)
-combList = comb3+comb2+comb1 #initialize list of possible combinations of lkim code elements
+comb4 = []
+for i in comb2:
+    for j in comb2:
+        if i != j:
+            comb4.append(i+j)
+combList = comb4+comb3+comb2+comb1 #initialize list of possible combinations of lkim code elements
 #todo:
-#4-er Liste aus 2-er Liste zusammensetzen usw.              
+#4-er Liste aus 2-er Liste zusammensetzen usw.
+#engine für diesen Vorgang möglich?
+#-> funktion bauen       
 
 def temp_uncompress(data: str, sgn: str, sgn_codec: int):
     """
