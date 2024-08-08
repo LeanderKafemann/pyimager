@@ -15,7 +15,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 3, 4), "Author":"Leander Kafemann", "date":"08.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 3, 5), "Author":"Leander Kafemann", "date":"08.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -50,16 +50,18 @@ for i in el:
                 comb3.append(i+j+k)
 comb4 = listComb(comb2, comb2)
 comb5 = listComb(comb2, comb3)
-"""print("5")
+"""
 comb6 = listComb(comb3, comb3)
 comb7 = listComb(comb4, comb3)
 print("7")
 comb8 = listComb(comb4, comb4)
-comb9 = listComb(comb5, comb4)"""
+comb9 = listComb(comb5, comb4)
+"""
 combList = comb5+comb4+comb3+comb2+comb1 #initialize list of possible combinations of lkim code elements
 #the long-term limit list is 9 because at 10 signs the normal, 1-sign compression is more efficient in most of the cases
 #(noone would create an image with a abcdefghij sequence repeating itself at least 5 times)   
-#currently, the limit is 5 for efficiency reasons 
+#currently, the limit is 5 for efficiency reasons
+#however, you can still activate the includeComb6 statemente while compressing
 
 def temp_uncompress(data: str, sgn: str, sgn_codec: int):
     """
@@ -115,14 +117,19 @@ def display(path: str, display_content: str = ""):
             count = 0
         count += 1
 
-def compress(path: str, target: str = ""):
+def compress(path: str, target: str = "", includeComb6: bool = False):
     """
     Compresses LKIM with replacing frequent pixels.
     If target is left empty, the given file gets overwritten.
+    includeComb6 -- if this value is set to True, the listComb list
+                    is combined with the comb6, but making the comb6 list may cost some time.
     """
     with open(path, "r", encoding="utf-8") as f:
         im = f.read()
-    for i in combList:
+    combList_ = combList.copy()
+    if includeComb6:
+        combList_ = listComb(comb3, comb3)+combList_
+    for i in combList_:
         im = im.replace(i*50, f"§{i}§")
         im = im.replace(i*20, f"&{i}&")
         im = im.replace(i*10, f"%{i}%")
@@ -149,15 +156,16 @@ def decompress(path: str, target: str = ""):
     with open(target, "w", encoding="utf-8") as f:
         f.write(sizes+"#**#"+data)
 
-def compressor(path: str, target: str = ""):
+def compressor(path: str, target: str = "", includeComb6: bool = False):
     """
     Decompresses and then compresses LKIM anew.
     If target is left empty, the given file is overwritten.
+    Read more over (de-/)compressing in the functions documentation.
     """
     if target == "":
         target = path
     decompress(path, target)
-    compress(target, target)
+    compress(target, target, includeComb6)
     
 class Designer:
     """
