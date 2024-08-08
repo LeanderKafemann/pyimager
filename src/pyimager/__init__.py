@@ -15,7 +15,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 3, 3), "Author":"Leander Kafemann", "date":"08.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 3, 4), "Author":"Leander Kafemann", "date":"08.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -25,11 +25,18 @@ cl = b.BCLIST+b.BLCLIST #initialize pycols color code elements
 el = list("abcdefghijklmnopqr") #initialize list of lkim code elements
 cols = None
 
+def countDif(str1: str, str2: str):
+    a = []
+    for i in str1+str2:
+        if i not in a:
+            a.append(i)
+    return len(a)
+
 def listComb(list1: list, list2: list):
     retList = []
     for i in list1:
         for j in list2:
-            if i != j:
+            if countDif(i, j) > 1:
                 retList.append(i+j)
     return retList
                 
@@ -42,11 +49,17 @@ for i in el:
             if i != j and i != k and j != k:
                 comb3.append(i+j+k)
 comb4 = listComb(comb2, comb2)
-combList = comb4+comb3+comb2+comb1 #initialize list of possible combinations of lkim code elements
-#todo:
-#4-er Liste aus 2-er Liste zusammensetzen usw.
-#engine weiter nutzen
-#evtl grenze festlegen, da sehr lange kombinationen möglich       
+comb5 = listComb(comb2, comb3)
+"""print("5")
+comb6 = listComb(comb3, comb3)
+comb7 = listComb(comb4, comb3)
+print("7")
+comb8 = listComb(comb4, comb4)
+comb9 = listComb(comb5, comb4)"""
+combList = comb5+comb4+comb3+comb2+comb1 #initialize list of possible combinations of lkim code elements
+#the long-term limit list is 9 because at 10 signs the normal, 1-sign compression is more efficient in most of the cases
+#(noone would create an image with a abcdefghij sequence repeating itself at least 5 times)   
+#currently, the limit is 5 for efficiency reasons 
 
 def temp_uncompress(data: str, sgn: str, sgn_codec: int):
     """
