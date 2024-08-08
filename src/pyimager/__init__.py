@@ -15,7 +15,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 3, 2), "Author":"Leander Kafemann", "date":"07.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 3, 3), "Author":"Leander Kafemann", "date":"08.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -25,33 +25,33 @@ cl = b.BCLIST+b.BLCLIST #initialize pycols color code elements
 el = list("abcdefghijklmnopqr") #initialize list of lkim code elements
 cols = None
 
+def listComb(list1: list, list2: list):
+    retList = []
+    for i in list1:
+        for j in list2:
+            if i != j:
+                retList.append(i+j)
+    return retList
+                
 comb1 = el.copy()
-comb2 = []
-for i in el:
-    for j in el:
-        if i != j:
-            comb2.append(i+j)
+comb2 = listComb(el, el)
 comb3 = []
 for i in el:
     for j in el:
         for k in el:
             if i != j and i != k and j != k:
                 comb3.append(i+j+k)
-comb4 = []
-for i in comb2:
-    for j in comb2:
-        if i != j:
-            comb4.append(i+j)
+comb4 = listComb(comb2, comb2)
 combList = comb4+comb3+comb2+comb1 #initialize list of possible combinations of lkim code elements
 #todo:
 #4-er Liste aus 2-er Liste zusammensetzen usw.
-#engine für diesen Vorgang möglich?
-#-> funktion bauen       
+#engine weiter nutzen
+#evtl grenze festlegen, da sehr lange kombinationen möglich       
 
 def temp_uncompress(data: str, sgn: str, sgn_codec: int):
     """
     Uncompresses content of data, but only uncompresses codecs with given sign.
-    Replaces it by sgn_codec times the content of the compression matrix.
+    Replaces it with sgn_codec times the content of the compression matrix.
     """
     sgn_found = []
     for i in range(len(data)):
