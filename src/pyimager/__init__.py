@@ -6,6 +6,8 @@ compress -- compresses image file
 decompress -- decompresses image file
 compressor -- compresses whole file anew
 temp_uncompress -- uncompresses lkim-data temporarily
+countDif -- counts different characters in strings
+listComb -- returns a list with all combinations of two elements of two lists
 about -- returns information about your release
 
 Start pyimager via cmd to execute __main__.py,
@@ -15,7 +17,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 3, 5), "Author":"Leander Kafemann", "date":"08.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 3, 6), "Author":"Leander Kafemann", "date":"08.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -26,30 +28,32 @@ el = list("abcdefghijklmnopqr") #initialize list of lkim code elements
 cols = None
 
 def countDif(str1: str, str2: str):
+    """
+    Counts how many different characters are in two strings.
+    """
     a = []
     for i in str1+str2:
         if i not in a:
             a.append(i)
     return len(a)
 
-def listComb(list1: list, list2: list):
+def listComb(list1: list, list2: list, skipCheck: bool = False):
+    """
+    Returns a list with all possible combinations of elements of list1 and list2.
+    skipCheck -- skips check of the two elements have the same characters.
+    """
     retList = []
     for i in list1:
         for j in list2:
-            if countDif(i, j) > 1:
+            if countDif(i, j) > 1 or skipCheck:
                 retList.append(i+j)
     return retList
                 
 comb1 = el.copy()
-comb2 = listComb(el, el)
-comb3 = []
-for i in el:
-    for j in el:
-        for k in el:
-            if i != j and i != k and j != k:
-                comb3.append(i+j+k)
-comb4 = listComb(comb2, comb2)
-comb5 = listComb(comb2, comb3)
+comb2 = listComb(comb1, comb1); comb2_ = listComb(comb1, comb1, True)
+comb3 = listComb(comb2_, comb1); comb3_ = listComb(comb2_, comb1, True)
+comb4 = listComb(comb2_, comb2_)
+comb5 = listComb(comb2_, comb3_)
 """
 comb6 = listComb(comb3, comb3)
 comb7 = listComb(comb4, comb3)
@@ -59,9 +63,11 @@ comb9 = listComb(comb5, comb4)
 """
 combList = comb5+comb4+comb3+comb2+comb1 #initialize list of possible combinations of lkim code elements
 #the long-term limit list is 9 because at 10 signs the normal, 1-sign compression is more efficient in most of the cases
-#(noone would create an image with a abcdefghij sequence repeating itself at least 5 times)   
+# (noone would create an image with a abcdefghij sequence repeating itself at least 5 times)   
 #currently, the limit is 5 for efficiency reasons
-#however, you can still activate the includeComb6 statemente while compressing
+# however, you can still activate the includeComb6 statemente while compressing
+#the combX_ lists are lists with also elements like aaa
+# which must not be in the combX lists but must be part of the list1/2 elements for new combX lists
 
 def temp_uncompress(data: str, sgn: str, sgn_codec: int):
     """
@@ -128,7 +134,7 @@ def compress(path: str, target: str = "", includeComb6: bool = False):
         im = f.read()
     combList_ = combList.copy()
     if includeComb6:
-        combList_ = listComb(comb3, comb3)+combList_
+        combList_ = listComb(comb3_, comb3_)+combList_
     for i in combList_:
         im = im.replace(i*50, f"§{i}§")
         im = im.replace(i*20, f"&{i}&")
