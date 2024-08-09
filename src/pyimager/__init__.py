@@ -18,7 +18,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 3, 7), "Author":"Leander Kafemann", "date":"09.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 3, 8), "Author":"Leander Kafemann", "date":"09.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -27,6 +27,9 @@ b = pycols.Back()
 cl = b.BCLIST+b.BLCLIST #initialize pycols color code elements
 el = list("abcdefghijklmnopqr") #initialize list of lkim code elements
 cols = None
+
+comb6included = False #initialize boolean value if comb6 list has been added
+                      #check this var to know if it has been included
 
 def countDif(str1: str, str2: str):
     """
@@ -57,9 +60,11 @@ comb4 = listComb(comb2_, comb2_)
 comb5 = listComb(comb2_, comb3_)
 """
 comb6 = listComb(comb3, comb3)
+print("6")
 comb7 = listComb(comb4, comb3)
 print("7")
 comb8 = listComb(comb4, comb4)
+print("8")
 comb9 = listComb(comb5, comb4)
 """
 combList = comb5+comb4+comb3+comb2+comb1 #initialize list of possible combinations of lkim code elements
@@ -71,14 +76,17 @@ combList = comb5+comb4+comb3+comb2+comb1 #initialize list of possible combinatio
 #the combX_ lists are lists with also elements like aaa
 # which must not be in the combX lists but must be part of the list1/2 elements for new combX lists
 
-def addComb6():
+def addComb6(overrideC6I: bool = False):
     """
     Adds comb6 permanently to combList.
     This saves time if you want to compress multiple images with comb6,
     but costs time, if the images don't contain lkim element combs of length 6.
+    overrideC6I -- adds comb6 list even if it was already added
     """
-    global combList
-    combList = listComb(comb3_, comb3_)+combList
+    global combList, comb6included
+    if not comb6included or overrideC6I:
+        combList = listComb(comb3_, comb3_)+combList
+        comb6included = True
 
 def temp_uncompress(data: str, sgn: str, sgn_codec: int):
     """
@@ -140,11 +148,12 @@ def compress(path: str, target: str = "", includeComb6: bool = False):
     If target is left empty, the given file gets overwritten.
     includeComb6 -- if this value is set to True, the listComb list
                     is combined with the comb6, but making the comb6 list may cost some time.
+                    It will not be added if addComb6 has been executed.
     """
     with open(path, "r", encoding="utf-8") as f:
         im = f.read()
     combList_ = combList.copy()
-    if includeComb6:
+    if includeComb6 and not comb6included:
         combList_ = listComb(comb3_, comb3_)+combList_
     for i in combList_:
         im = im.replace(i*50, f"§{i}§")
