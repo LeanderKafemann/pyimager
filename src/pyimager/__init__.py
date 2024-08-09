@@ -8,6 +8,7 @@ compressor -- compresses whole file anew
 temp_uncompress -- uncompresses lkim-data temporarily
 countDif -- counts different characters in strings
 listComb -- returns a list with all combinations of two elements of two lists
+addComb6 -- add comb6 list to combList
 about -- returns information about your release
 
 Start pyimager via cmd to execute __main__.py,
@@ -17,7 +18,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 3, 6), "Author":"Leander Kafemann", "date":"08.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"Version":(3, 3, 7), "Author":"Leander Kafemann", "date":"09.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()
@@ -66,8 +67,18 @@ combList = comb5+comb4+comb3+comb2+comb1 #initialize list of possible combinatio
 # (noone would create an image with a abcdefghij sequence repeating itself at least 5 times)   
 #currently, the limit is 5 for efficiency reasons
 # however, you can still activate the includeComb6 statemente while compressing
+# but be aware that this will cost some time for making the comb6 list
 #the combX_ lists are lists with also elements like aaa
 # which must not be in the combX lists but must be part of the list1/2 elements for new combX lists
+
+def addComb6():
+    """
+    Adds comb6 permanently to combList.
+    This saves time if you want to compress multiple images with comb6,
+    but costs time, if the images don't contain lkim element combs of length 6.
+    """
+    global combList
+    combList = listComb(comb3_, comb3_)+combList
 
 def temp_uncompress(data: str, sgn: str, sgn_codec: int):
     """
@@ -223,7 +234,8 @@ class Designer:
         imPath = input("Enter path to save image (.lkim file): ")
         with open(imPath, "w") as f:
             f.write(self.imTextSchabl.format(str(self.width), str(self.height), self.imText))
-        compress(imPath)
+        print("Compressing image...")
+        compress(imPath, includeComb6=True)
         print("Displaying new image...")
         display(imPath)
     def show_palette(self):
