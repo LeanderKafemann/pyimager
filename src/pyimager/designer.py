@@ -1,4 +1,4 @@
-from __init__ import display, compress
+from pyimager import display, compress
 
 class Designer:
     """
