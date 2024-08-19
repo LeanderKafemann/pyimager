@@ -11,6 +11,9 @@ listComb -- returns a list with all combinations of two elements of two lists
 addComb6 -- add comb6 list to combList
 about -- returns information about your release
 
+relevant vars:
+comb6included -- var saves if comb6 has been included in combList
+
 Start pyimager via cmd to execute __main__.py,
 which will make you enter the Designer Mode to create your own lkims.
 """
@@ -18,7 +21,9 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"Version":(3, 3, 8), "Author":"Leander Kafemann", "date":"09.08.2024", "recommend":("Büro by LK"), "feedbackTo": "leander@kafemann.berlin"}
+    return {"version": (3, 3, 9), "author": "Leander Kafemann", "date": "19.08.2024", "recommend": ("Büro by LK"), "feedback to": "leander@kafemann.berlin"}
+
+import designer
 
 import pycols
 c = pycols.color()
@@ -29,7 +34,6 @@ el = list("abcdefghijklmnopqr") #initialize list of lkim code elements
 cols = None
 
 comb6included = False #initialize boolean value if comb6 list has been added
-                      #check this var to know if it has been included
 
 def countDif(str1: str, str2: str):
     """
@@ -68,13 +72,15 @@ print("8")
 comb9 = listComb(comb5, comb4)
 """
 combList = comb5+comb4+comb3+comb2+comb1 #initialize list of possible combinations of lkim code elements
-#the long-term limit list is 9 because at 10 signs the normal, 1-sign compression is more efficient in most of the cases
-# (noone would create an image with a abcdefghij sequence repeating itself at least 5 times)   
-#currently, the limit is 5 for efficiency reasons
-# however, you can still activate the includeComb6 statemente while compressing
-# but be aware that this will cost some time for making the comb6 list
-#the combX_ lists are lists with also elements like aaa
-# which must not be in the combX lists but must be part of the list1/2 elements for new combX lists
+"""
+the long-term limit list is 9 because at 10 signs the normal, 1-sign compression is more efficient in most of the cases
+ (noone would create an image with a abcdefghij sequence repeating itself at least 5 times)   
+currently, the limit is 5 for efficiency reasons
+ however, you can still activate the includeComb6 statemente while compressing
+ but be aware that this will cost some time for making the comb6 list
+the combX_ lists are lists with also elements like aaa
+ which must not be in the combX lists but must be part of the list1/2 elements for new combX lists
+"""
 
 def addComb6(overrideC6I: bool = False):
     """
@@ -91,7 +97,7 @@ def addComb6(overrideC6I: bool = False):
 def temp_uncompress(data: str, sgn: str, sgn_codec: int):
     """
     Uncompresses content of data, but only uncompresses codecs with given sign.
-    Replaces it with sgn_codec times the content of the compression matrix.
+    Replaces it with sgn_codec times the content of the compression element.
     """
     sgn_found = []
     for i in range(len(data)):
@@ -186,75 +192,9 @@ def compressor(path: str, target: str = "", includeComb6: bool = False):
     """
     Decompresses and then compresses LKIM anew.
     If target is left empty, the given file is overwritten.
-    Read more over (de-/)compressing in the functions documentation.
+    Read more about (de-/)compressing in the functions documentation.
     """
     if target == "":
         target = path
     decompress(path, target)
     compress(target, target, includeComb6)
-    
-class Designer:
-    """
-    Class for pyimagers Designer Mode.
-    """
-    def __init__(self):
-        self.paletteText = "abcdefghijklmnopqr"
-        self.paletteDisplay = "18#*#1#**#"+self.paletteText
-        self.width = 0
-        self.height = 0
-        self.imTextSchabl = "{}#*#{}#**#{}"
-        self.imText = ""
-    def run_designer(self):
-        """
-        Runs Designer Mode
-        """
-        print("Designer loading...")
-        self.show_palette()
-        while True:
-            print("Current image:")
-            display("display_content", self.imTextSchabl.format(str(self.width), str(self.height), self.imText))
-            print("Image Data: Width: {} - Height: {}".format(str(self.width), str(self.height)))
-            newRow = input("Enter new row of image, command or help: ")
-            if newRow == "finish":
-                break
-            elif newRow == "undo":
-                self.imText = self.imText[0:-1*self.width]
-                self.height -= 1
-            elif newRow == "repeat":
-                self.imText += self.imText[-1*self.width if self.height != 1 else 0:]
-                self.height += 1
-            elif newRow == "help" or newRow == "command":
-                print("Short description of Designer Mode", "For more information read the documentation or view the code",\
-                      "Enter one of the following: rowCode_, help, command_", "help", "help returns you here",\
-                      "rowCode_", "a rowCode is the lkim content of a lkim row", "you have to enter the colors codes as seen above",\
-                      "command_", "a command will execute some helpful options so you save time",\
-                      "undo removes the last row placed", "repeat addes the last row again", sep="\n")
-            else:
-                print("Adding new row...")
-                if self.width == 0:
-                    self.width = len(newRow)
-                else:
-                    if len(newRow) != self.width:
-                        self.raise_error("Invalid or inconsistent width")
-                self.imText += newRow
-                self.height += 1
-        if self.height == 0:
-            self.raise_error("Invalid height (0)")
-        imPath = input("Enter path to save image (.lkim file): ")
-        with open(imPath, "w") as f:
-            f.write(self.imTextSchabl.format(str(self.width), str(self.height), self.imText))
-        print("Compressing image...")
-        compress(imPath, includeComb6=True)
-        print("Displaying new image...")
-        display(imPath)
-    def show_palette(self):
-        """
-        Shows available colors and codes
-        """
-        display("display_content", self.paletteDisplay)
-        print(self.paletteText)
-    def raise_error(self, errorText: str = ""):
-        """
-        Raises error
-        """
-        quit(code=errorText)
