@@ -1,5 +1,5 @@
-from .display import display
-from .compress import compress
+from .displaying import display
+from .compressing import compress
 
 class Designer:
     """
