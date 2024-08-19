@@ -21,9 +21,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"version": (3, 3, 11), "author": "Leander Kafemann", "date": "19.08.2024", "recommend": ("Büro by LK"), "feedback to": "leander@kafemann.berlin"}
-
-from . import designer
+    return {"version": (3, 3, 12), "author": "Leander Kafemann", "date": "19.08.2024", "recommend": ("Büro by LK"), "feedback to": "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()

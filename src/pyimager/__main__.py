@@ -3,6 +3,6 @@ Subscript for designing lkims.
 Starts Designer Mode of __init__.py
 """
 import pyimager as pi
-d = pi.designer()
+d = pi.designer.Designer()
 d.run_designer()
 input("Finish...")
