@@ -1,4 +1,5 @@
-from pyimager import display, compress
+from .display import display
+from .compress import compress
 
 class Designer:
     """
