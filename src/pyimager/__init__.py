@@ -14,6 +14,9 @@ about -- returns information about your release
 relevant vars:
 comb6included -- var saves if comb6 has been included in combList
 
+submodules:
+pyimager.designer -- module of Designer mode
+
 Start pyimager via cmd to execute __main__.py,
 which will make you enter the Designer Mode to create your own lkims.
 """
@@ -21,7 +24,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"version": (3, 3, 12), "author": "Leander Kafemann", "date": "19.08.2024", "recommend": ("Büro by LK"), "feedback to": "leander@kafemann.berlin"}
+    return {"version": (3, 3, 13), "author": "Leander Kafemann", "date": "19.08.2024", "recommend": ("Büro by LK"), "feedback to": "leander@kafemann.berlin"}
 
 import pycols
 c = pycols.color()

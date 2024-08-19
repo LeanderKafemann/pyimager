@@ -1,8 +1,8 @@
 """
 Subscript for designing lkims.
-Starts Designer Mode of __init__.py
+Starts Designer Mode of pyimager.
 """
-import pyimager as pi
-d = pi.designer.Designer()
+import pyimager.designer
+d = pyimager.designer.Designer()
 d.run_designer()
 input("Finish...")
