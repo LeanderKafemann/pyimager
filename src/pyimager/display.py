@@ -23,7 +23,7 @@ def display(path: str, display_content: str = ""):
     data = temp_uncompress(data, "$", 5)
     data = temp_uncompress(data, "%", 10)
     data = temp_uncompress(data, "&", 20)
-    data = temp_uncompress(data, "ง", 50)
+    data = temp_uncompress(data, "ยง", 50)
     if WIDTH * HEIGHT != len(data) or WIDTH > 150 or HEIGHT > 100:
         print(WIDTH, HEIGHT, WIDTH*HEIGHT, len(data))
         print("Invalid image size.")

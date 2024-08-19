@@ -90,7 +90,7 @@ def compress(path: str, target: str = "", includeComb6: bool = False):
     if includeComb6 and not comb6included:
         combList_ = listComb(comb3_, comb3_)+combList_
     for i in combList_:
-        im = im.replace(i*50, f"ง{i}ง")
+        im = im.replace(i*50, f"ยง{i}ยง")
         im = im.replace(i*20, f"&{i}&")
         im = im.replace(i*10, f"%{i}%")
         im = im.replace(i*5, f"${i}$")
@@ -110,7 +110,7 @@ def decompress(path: str, target: str = ""):
     data = temp_uncompress(data, "$", 5)
     data = temp_uncompress(data, "%", 10)
     data = temp_uncompress(data, "&", 20)
-    data = temp_uncompress(data, "ง", 50)
+    data = temp_uncompress(data, "ยง", 50)
     if target == "":
         target = path
     with open(target, "w", encoding="utf-8") as f:
