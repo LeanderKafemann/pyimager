@@ -37,7 +37,8 @@ class Designer:
                           "Enter one of the following: rowCode_, help, command_", "help", "help returns you here",\
                           "rowCode_", "a rowCode is the lkim content of a lkim row", "you have to enter the colors codes as seen above",\
                           "command_", "a command will execute some helpful options so you save time",\
-                          "undo removes the last row placed", "repeat addes the last row again", sep="\n")
+                          "undo removes the last row placed", "repeat addes the last row again",\
+                          "finish saves the image", sep="\n")
                 case _:
                     print("Adding new row...")
                     if self.width == 0:
