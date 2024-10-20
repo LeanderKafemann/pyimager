@@ -24,25 +24,25 @@ class Designer:
             print("Image Data: Width: {} - Height: {}".format(str(self.width), str(self.height)))
             newRow = input("Enter new row of image, command or help: ")
             match newRow:
-                case "finish":
+                case "!finish":
                     break
-                case "show":
+                case "!show":
                     self.show_palette()
-                case "undo":
+                case "!undo":
                     self.imText = self.imText[0:-1*self.width]
                     self.height -= 1
-                case "repeat":
+                case "!repeat":
                     self.imText += self.imText[-1*self.width if self.height != 1 else 0:]
                     self.height += 1
-                case "help" | "command":
-                    print("Short description of Designer Mode", "For more information read the documentation or view the code",\
-                          "Enter one of the following: rowCode_, help, command_", "help", "help returns you here",\
-                          "rowCode_", "a rowCode is the lkim content of a lkim row", "you have to enter the colors codes as seen above",\
-                          "command_", "a command executes some helpful options so you save time",\
-                          "undo removes the last row placed", "repeat adds the last placed row again",\
-                          "show shows the colors and their codes again",\
-                          "!fill x fills the whole row with x-es, x is one or more signs of your choice, but len(x) must be a divisor of image width"\
-                          "finish saves the image", sep="\n")
+                case "help" | "command" | "command_":
+                    print("Short description of Designer Mode", "For more information read the documentation or view the code", "",\
+                          "Enter one of the following: rowCode_, help, command_", "help", "help       - returns you here",\
+                          "rowCode_   -", 13*" "+"a rowCode is the lkim content of a lkim row", 13*" "+"you have to enter the colors codes as seen above",\
+                          "command_   -", 13*" "+"a command executes some helpful options", "|", "->",\
+                          "!undo      - removes the last row placed", "!repeat    - adds the last placed row again",\
+                          "!show      - shows the colors and their codes again",\
+                          "!fill x    - fills the whole row with x-es, x is one or more signs of your choice,", 13*" "+"but len(x) must be a divisor of image width",\
+                          "!finish    - saves the image", sep="\n")
                 case _:
                     if not "!fill" in newRow:
                         print("Adding new row...")
@@ -56,7 +56,7 @@ class Designer:
                     else:
                         print("Filling new row...")
                         newR = newRow.split("!fill ")[-1]
-                        newR_ = newR * self.width / len(newR)
+                        newR_ = newR * int(self.width / len(newR))
                         if len(newR_) == 0:
                             self.raise_error("Invalid fill term")
                         self.imText += newR_
