@@ -26,6 +26,8 @@ class Designer:
             match newRow:
                 case "!finish":
                     break
+                case "!quit":
+                    self.raise_error("You quitted Designer mode.")
                 case "!show":
                     self.show_palette()
                 case "!undo":
@@ -34,15 +36,15 @@ class Designer:
                 case "!repeat":
                     self.imText += self.imText[-1*self.width if self.height != 1 else 0:]
                     self.height += 1
-                case "help" | "command" | "command_":
+                case "!help" | "command" | "command_" | "rowCode_":
                     print("Short description of Designer Mode", "For more information read the documentation or view the code", "",\
-                          "Enter one of the following: rowCode_, help, command_", "help", "help       - returns you here",\
-                          "rowCode_   -", 13*" "+"a rowCode is the lkim content of a lkim row", 13*" "+"you have to enter the colors codes as seen above",\
-                          "command_   -", 13*" "+"a command executes some helpful options", "|", "->",\
+                          "Enter one of the following: rowCode_, !help, command_", "!help      - returns you here",\
+                          "rowCode_   - a rowCode is the lkim content of a lkim row", 13*" "+"you have to enter the colors codes as seen above",\
+                          "command_   - a command executes some helpful options", "commands are:",\
                           "!undo      - removes the last row placed", "!repeat    - adds the last placed row again",\
                           "!show      - shows the colors and their codes again",\
                           "!fill x    - fills the whole row with x-es, x is one or more signs of your choice,", 13*" "+"but len(x) must be a divisor of image width",\
-                          "!finish    - saves the image", sep="\n")
+                          "!finish    - saves the image", "!quit      - quits Designer mode", sep="\n")
                 case _:
                     if not "!fill" in newRow:
                         print("Adding new row...")
