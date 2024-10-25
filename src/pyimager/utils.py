@@ -2,7 +2,6 @@
 pyimager.utils
 Submodule for pyimagers utils
 
-temp_uncompress -- uncompresses lkim-data temporarily
 countDif -- counts different characters in strings
 """
 def countDif(str1: str, str2: str):

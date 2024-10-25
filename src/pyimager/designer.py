@@ -1,5 +1,11 @@
+"""
+Submodule for designer mode.
+Enter !help during designer mode for more information.
+"""
+
 from .displaying import display
 from .compressing import compress
+from .message import errorMessageB
 
 class Designer:
     """
@@ -82,4 +88,6 @@ class Designer:
         """
         Raises error
         """
-        quit(code=errorText)
+        errorMessageB(errorText)
+        self.__init__()
+        self.run_designer()
