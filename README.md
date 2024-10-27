@@ -72,12 +72,12 @@ pyimager.decompress("C:/Path/To/Image.lkim", "C:/Path/To/Decompressed/Image.lkim
 Also, it is possible to temporarily decompress an image via reading its content and decompressing this:
 
 ```python
-import pyimager
+from pyimager import temp_uncompress
 data = "ImageDataWithoutSizeDescription"
 data = temp_uncompress(data, "$", 5)
 data = temp_uncompress(data, "%", 10)
 data = temp_uncompress(data, "&", 20)
-final_data = temp_uncompress(data, "ง", 50)
+final_data = temp_uncompress(data, "ยง", 50)
 ```
 , which uncompresses all common compressing sign codecs known by pyimager.
 #### Compressing
