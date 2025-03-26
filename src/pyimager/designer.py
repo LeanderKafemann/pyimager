@@ -33,7 +33,7 @@ class Designer:
                 case "!finish":
                     break
                 case "!quit":
-                    self.raise_error("You quitted Designer mode.")
+                    self.raise_error("You quitted Designer mode.", quit_=True)
                 case "!show":
                     self.show_palette()
                 case "!undo":
@@ -42,7 +42,7 @@ class Designer:
                 case "!repeat":
                     self.imText += self.imText[-1*self.width if self.height != 1 else 0:]
                     self.height += 1
-                case "!help" | "command" | "command_" | "rowCode_":
+                case "!help" | "!command" | "command_" | "rowCode_":
                     print("Short description of Designer Mode", "For more information read the documentation or view the code", "",\
                           "Enter one of the following: rowCode_, !help, command_", "!help      - returns you here",\
                           "rowCode_   - a rowCode is the lkim content of a lkim row", 13*" "+"you have to enter the colors codes as seen above",\
@@ -84,10 +84,13 @@ class Designer:
         """
         display("display_content", self.paletteDisplay)
         print(self.paletteText)
-    def raise_error(self, errorText: str = ""):
+    def raise_error(self, errorText: str = "", quit_: bool = False):
         """
         Raises error
         """
         errorMessageB(errorText)
-        self.__init__()
-        self.run_designer()
+        if quit_:
+            quit(code="quitted")
+        else:
+            self.__init__()
+            self.run_designer()

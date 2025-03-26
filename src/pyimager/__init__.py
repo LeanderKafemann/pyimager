@@ -16,7 +16,7 @@ def about():
     """
     Returns information about your release and other projects by LK.
     """
-    return {"version": (3, 4, 7), "author": "Leander Kafemann", "date": "24.10.2024", "recommend": ("Büro by LK"), "feedback to": "leander@kafemann.berlin"}
+    return {"version": (3, 4, 8), "author": "Leander Kafemann", "date": "26.03.2025", "recommend": ("Büro by LK"), "feedback to": "leander@kafemann.berlin"}
 
 from . import utils
 from . import compressing
