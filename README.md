@@ -114,5 +114,7 @@ This submodule has two functions for creating lists with all combinations from o
 <code>pyimager.utils.listComb</code> combines the lists,<br/>
 <code>pyimager.utils.countDif</code> counts the number of different characters in two strings.
 #### pyimager.message
-Upcoming functions for colored error messages etc..
+Functions for colored error messages etc..<br/>
+<code>pyimager.message.errorMessage</code> sends a message with a customizable color<br/>
+<code>pyimager.message.errorMessageB</code> sends a message with a customizable background color.
 ### More coming soon...
